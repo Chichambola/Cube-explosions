@@ -16,9 +16,9 @@ public class Painter : MonoBehaviour
         _spawner.ClonesCreated -= ChangeColor;
     }
 
-    private void ChangeColor(List<GameObject> clonedObject)
+    private void ChangeColor(List<Rigidbody> clonedObject)
     {
-        foreach (GameObject obj in clonedObject)
+        foreach (Rigidbody obj in clonedObject)
         {
             obj.gameObject.GetComponent<Renderer>().material.color = Random.ColorHSV();
         }

@@ -4,32 +4,16 @@ using UnityEngine;
 
 public class Exploder : MonoBehaviour
 {
-    [SerializeField] private Spawner _spawner;
     [SerializeField] private float _explosionRadius;
     [SerializeField] private float _explosionForce;
 
-    private void OnEnable()
+    public void CreateExplosion(List<Rigidbody> clones, Cube originalCube)
     {
-        _spawner.ClonesCreated += CreateExplosion;
-    }
+        Collider[] hits = Physics.OverlapSphere(originalCube.transform.position, _explosionRadius);
 
-    private void OnDisable()
-    {
-        _spawner.ClonesCreated -= CreateExplosion;
-    }
-
-    private void CreateExplosion(List<GameObject> clones)
-    {
-        int firstIndex = 0;
-
-        Collider[] hits = Physics.OverlapSphere(clones[firstIndex].transform.position, _explosionRadius);
-
-        for (int i = 0; i < clones.Count; i++) 
+        for (int i = 0; i < clones.Count; i++)
         {
-            if (clones[i].TryGetComponent<Rigidbody>(out Rigidbody cloneObject))
-            {
-                cloneObject.AddExplosionForce(_explosionForce, clones[firstIndex].transform.position, _explosionRadius);
-            }
+            clones[i].AddExplosionForce(_explosionForce, originalCube.transform.position, _explosionRadius);
         }
     }
 }

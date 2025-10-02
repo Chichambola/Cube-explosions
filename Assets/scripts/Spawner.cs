@@ -6,55 +6,45 @@ using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private HitDetection _hitDetector;
-
     private int _attempt = 1;
     private float _successPercentage = 100;
     private int _minCloneCubeAmount = 2;
     private int _maxCloneCubeAmount = 6;
 
-    public event Action<List<GameObject>> ClonesCreated;
+    public event Action<List<Rigidbody>> ClonesCreated;
 
-    private void OnEnable()
+    public List<Rigidbody> Clone(Cube originalCube)
     {
-        _hitDetector.CollisionDetected += Clone;
-    }
-
-    private void OnDisable()
-    {
-        _hitDetector.CollisionDetected -= Clone;
-    }
-
-    private void Clone(GameObject originalObject)
-    {
-        List<GameObject> clones = new List<GameObject>();
+        List<Rigidbody> clones = new ();
 
         int divider = 2;
 
         int amountofCubes = Random.Range(_minCloneCubeAmount, _maxCloneCubeAmount + 1);
 
-        Vector3 newScale = originalObject.transform.localScale / divider;
+        Vector3 newScale = originalCube.transform.localScale / divider;
 
         for (int i = 0; i < amountofCubes; i++)
         {
             if (CanClone())
             {
-                var newObject = Instantiate(originalObject);
+                var newObject = Instantiate(originalCube);
 
-                newObject.transform.position = originalObject.transform.position;
+                newObject.transform.position = originalCube.transform.position;
                 newObject.transform.localScale = newScale;
 
-                clones.Add(newObject);
-
-                ClonesCreated?.Invoke(clones);
+                clones.Add(newObject.GetComponent<Rigidbody>());
             }
 
-            Destroy(originalObject);
+            ClonesCreated?.Invoke(clones);
+            
+            Destroy(originalCube.gameObject);
         }
 
         _successPercentage /= _attempt;
 
         _attempt++;
+
+        return clones;
     }
 
     private bool CanClone()
