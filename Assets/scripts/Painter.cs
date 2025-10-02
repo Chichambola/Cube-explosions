@@ -16,11 +16,11 @@ public class Painter : MonoBehaviour
         _spawner.ClonesCreated -= ChangeColor;
     }
 
-    private void ChangeColor(List<Rigidbody> clonedObject)
+    private void ChangeColor(List<Cube> clonedObjects)
     {
-        foreach (Rigidbody obj in clonedObject)
+        for (int i = 0; i < clonedObjects.Count; i++)
         {
-            obj.gameObject.GetComponent<Renderer>().material.color = Random.ColorHSV();
+            clonedObjects[i].Color = Random.ColorHSV();
         }
     }
 }

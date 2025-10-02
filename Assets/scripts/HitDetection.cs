@@ -25,15 +25,13 @@ public class HitDetection : MonoBehaviour
         _inputHandler.Clicked -= IsRayCollided;
     }
 
-    private void IsRayCollided()
+    private void IsRayCollided(Vector3 mousePosition)
     {
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _camera.ScreenPointToRay(mousePosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, _maxDistance, _layerToHit))
+        if (Physics.Raycast(ray, out RaycastHit hit, _maxDistance, _layerToHit) && hit.collider.TryGetComponent(out Cube cube))
         {
-            _cube = hit.collider.gameObject.GetComponent<Cube>();
-
-            CollisionDetected?.Invoke(_cube);
+            CollisionDetected?.Invoke(cube);
         }
     }
 }

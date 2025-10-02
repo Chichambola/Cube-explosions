@@ -11,11 +11,11 @@ public class Spawner : MonoBehaviour
     private int _minCloneCubeAmount = 2;
     private int _maxCloneCubeAmount = 6;
 
-    public event Action<List<Rigidbody>> ClonesCreated;
+    public event Action<List<Cube>> ClonesCreated;
 
-    public List<Rigidbody> Clone(Cube originalCube)
+    public List<Cube> Clone(Cube originalCube)
     {
-        List<Rigidbody> clones = new ();
+        List<Cube> clones = new ();
 
         int divider = 2;
 
@@ -32,14 +32,14 @@ public class Spawner : MonoBehaviour
                 newObject.transform.position = originalCube.transform.position;
                 newObject.transform.localScale = newScale;
 
-                clones.Add(newObject.GetComponent<Rigidbody>());
+                clones.Add(newObject);
             }
 
             ClonesCreated?.Invoke(clones);
-            
-            Destroy(originalCube.gameObject);
         }
 
+        Destroy(originalCube.gameObject);
+        
         _successPercentage /= _attempt;
 
         _attempt++;
