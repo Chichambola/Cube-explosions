@@ -11,9 +11,12 @@ public class Exploder : MonoBehaviour
     {
         Collider[] hits = Physics.OverlapSphere(originalCube.transform.position, _explosionRadius);
 
-        for (int i = 0; i < clones.Count; i++)
+        foreach (Collider hit in hits) 
         {
-            clones[i].Rigidbody.AddExplosionForce(_explosionForce, originalCube.transform.position, _explosionRadius);
+            foreach (Cube cube in clones) 
+            {
+                cube.Rigidbody.AddExplosionForce(_explosionForce, originalCube.transform.position, _explosionRadius);
+            }
         }
     }
 }

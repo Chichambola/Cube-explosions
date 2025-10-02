@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 using UnityEngine;
 
 public class Handler : MonoBehaviour
@@ -19,8 +20,23 @@ public class Handler : MonoBehaviour
         _hitDetection.CollisionDetected += WorkWithCube;
     }
 
+    private bool CanCubeClone(Cube cube)
+    {
+        int minPercentage = 0;
+        int maxPercentage = 100;
+
+        float number = Random.Range(minPercentage, maxPercentage);
+
+        return number >= minPercentage && number <= cube.SplitChance;
+    }
+
     private void WorkWithCube(Cube cube)
     {
-        _exploder.CreateExplosion(_spawner.Clone(cube),cube);
+        if (CanCubeClone(cube)) 
+        {
+            _exploder.CreateExplosion(_spawner.Clone(cube), cube);
+        }
+
+        Destroy(cube.gameObject);
     }
 }

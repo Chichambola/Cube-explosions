@@ -1,26 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 using UnityEngine;
 
 public class Painter : MonoBehaviour
 {
-    [SerializeField] private Spawner _spawner;
-
-    private void OnEnable()
+    public Color ChangeColor()
     {
-        _spawner.ClonesCreated += ChangeColor;
-    }
-
-    private void OnDisable()
-    {
-        _spawner.ClonesCreated -= ChangeColor;
-    }
-
-    private void ChangeColor(List<Cube> clonedObjects)
-    {
-        for (int i = 0; i < clonedObjects.Count; i++)
-        {
-            clonedObjects[i].Color = Random.ColorHSV();
-        }
+        return Random.ColorHSV();
     }
 }
