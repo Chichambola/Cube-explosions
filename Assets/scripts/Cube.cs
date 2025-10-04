@@ -7,12 +7,15 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     [SerializeField] private float _explosionForce;
+    [Range(1,5)]
+    [SerializeField] private int _forceMultiplier;
     [SerializeField] private float _explosionRadius;
+    [Range(1,5)]
+    [SerializeField] private int _radiusMultiplier;
     
     
     private float _splitChance = 100;
     private float _decreaseRate = 2f;
-    private int _multiplier = 5;
 
     public Color Color { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
@@ -40,13 +43,13 @@ public class Cube : MonoBehaviour
     {
         _explosionForce = originalCubeForce;
 
-        _explosionForce *= _multiplier;
+        _explosionForce *= _forceMultiplier;
     }
     
     public void IncreaseExplosionRadius(float originalCubeRadius)
     {
         _explosionRadius = originalCubeRadius;
 
-        _explosionRadius *= _multiplier;
+        _explosionRadius *= _radiusMultiplier;
     }
 }

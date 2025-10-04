@@ -8,20 +8,21 @@ public class Exploder : MonoBehaviour
     public void CreateExplosion(Cube cube)
     {
         Vector3 cubePosition = cube.transform.position;
-
-        float cubeExplosionRadius = cube.ExplosionRadius;
         
-        Collider[] hits = Physics.OverlapSphere(cubePosition, cubeExplosionRadius);
+        Collider[] hits = Physics.OverlapSphere(cubePosition, cube.ExplosionRadius);
         
         foreach (Collider hit in hits)
         {
-            if (hit.TryGetComponent(out Cube cubeComponent))
+            if (hit.TryGetComponent(out Rigidbody rigidbody))
             {
                 float distance = Vector3.Distance(cubePosition, hit.transform.position);
-
-                float force = cube.ExplosionForce / distance;
-
-                cubeComponent.Rigidbody.AddExplosionForce(force, cubePosition, cube.ExplosionRadius);
+                
+                if (distance > 0)
+                {
+                    float force = cube.ExplosionForce / distance;
+                    
+                    rigidbody.AddExplosionForce(force, cubePosition, cube.ExplosionRadius);
+                }
             }
         }
     }
