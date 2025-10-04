@@ -36,7 +36,11 @@ public class Handler : MonoBehaviour
         {
             _exploder.CreateExplosion(_spawner.Clone(cube), cube);
         }
-
+        else
+        {
+            _exploder.CreateExplosion(cube);
+        }
+        
         Destroy(cube.gameObject);
     }
 }

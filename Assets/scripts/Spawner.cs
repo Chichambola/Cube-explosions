@@ -29,6 +29,9 @@ public class Spawner : MonoBehaviour
             {
                 newCube.transform.position = originalCube.gameObject.transform.position;
                 newCube.transform.localScale = newScale;
+                
+                newCube.IncreaseExplosionForce(originalCube.ExplosionForce);
+                newCube.IncreaseExplosionRadius(originalCube.ExplosionRadius);
                 newCube.DecreaseChances(originalCube.SplitChance);
 
                 meshRenderer.material.color = _painter.ChangeColor();
